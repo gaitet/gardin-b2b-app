@@ -18,7 +18,12 @@
     "@telegram-apps/telegram-ui": "^2.1.9",
     "@tma.js/sdk-react": "^3.0.8",
     "@tonconnect/ui-react": "^2.2.0",
+    "axios": "^1.19.0",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
     "eruda": "^3.4.3",
+    "express": "^5.2.1",
+    "lucide-react": "^1.27.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.30.1"
@@ -43,5 +48,17 @@
     "vite": "^6.3.5",
     "vite-plugin-mkcert": "^1.17.8",
     "vite-tsconfig-paths": "^5.1.4"
+  },
+  "description": "This template demonstrates how developers can implement a single-page\r application on the Telegram Mini Apps platform using the following technologies\r and libraries:",
+  "main": "eslint.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gaitet/gardin-b2b-app.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gaitet/gardin-b2b-app/issues"
   }
 }

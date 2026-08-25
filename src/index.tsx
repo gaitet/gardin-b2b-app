@@ -7,6 +7,7 @@ import { retrieveLaunchParams } from '@tma.js/sdk-react';
 
 import { Root } from '@/components/Root.tsx';
 import { EnvUnsupported } from '@/components/EnvUnsupported.tsx';
+import { CartProvider } from '@/context/CartContext';
 import { init } from '@/init.ts';
 
 import './index.css';
@@ -19,22 +20,23 @@ const root = ReactDOM.createRoot(document.getElementById('root')!);
 try {
   const launchParams = retrieveLaunchParams();
   const { tgWebAppPlatform: platform } = launchParams;
-  const debug = (launchParams.tgWebAppStartParam || '').includes('debug')
-    || import.meta.env.DEV;
+  const debug =
+    (launchParams.tgWebAppStartParam || '').includes('debug') ||
+    import.meta.env.DEV;
 
-  // Configure all application dependencies.
   await init({
     debug,
     eruda: debug && ['ios', 'android'].includes(platform),
     mockForMacOS: platform === 'macos',
-  })
-    .then(() => {
-      root.render(
-        <StrictMode>
-          <Root/>
-        </StrictMode>,
-      );
-    });
+  }).then(() => {
+    root.render(
+      <StrictMode>
+        <CartProvider>
+          <Root />
+        </CartProvider>
+      </StrictMode>,
+    );
+  });
 } catch (e) {
-  root.render(<EnvUnsupported/>);
+  root.render(<EnvUnsupported />);
 }

@@ -1,10 +1,16 @@
 import type { ComponentType, JSX } from 'react';
 
-import { IndexPage } from '@/pages/IndexPage/IndexPage';
+import { HomePage } from '@/pages/HomePage/HomePage';
+import { CatalogPage } from '@/pages/CatalogPage/CatalogPage';
 import { InitDataPage } from '@/pages/InitDataPage.tsx';
 import { LaunchParamsPage } from '@/pages/LaunchParamsPage.tsx';
 import { ThemeParamsPage } from '@/pages/ThemeParamsPage.tsx';
 import { TONConnectPage } from '@/pages/TONConnectPage/TONConnectPage';
+import { CartPage } from '@/pages/CartPage/CartPage';
+import { ProfilePage } from '@/pages/ProfilePage/ProfilePage';
+import OrdersPage from '@/pages/OrdersPage/OrdersPage';
+import OrderDetailsPage from '@/pages/OrderDetailsPage/OrderDetailsPage';
+
 
 interface Route {
   path: string;
@@ -14,7 +20,12 @@ interface Route {
 }
 
 export const routes: Route[] = [
-  { path: '/', Component: IndexPage },
+  { path: '/cart', Component: CartPage},
+  { path: '/profile', Component: ProfilePage},
+  { path: '/orders', Component: OrdersPage},
+  { path: '/orders/:id', Component: OrderDetailsPage},
+  { path: '/', Component: HomePage },
+  { path: '/catalog', Component: CatalogPage },
   { path: '/init-data', Component: InitDataPage, title: 'Init Data' },
   { path: '/theme-params', Component: ThemeParamsPage, title: 'Theme Params' },
   { path: '/launch-params', Component: LaunchParamsPage, title: 'Launch Params' },
