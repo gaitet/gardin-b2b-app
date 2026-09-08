@@ -5,18 +5,19 @@ import { useNavigate } from 'react-router-dom';
 import { Page } from '@/components/Page';
 import { BottomNavigation } from '@/components/BottomNavigation/BottomNavigation';
 import { colors } from '@/theme/colors';
+import { useDealer } from '@/context/DealerContext';
 
-const CLIENT_ID = 35029312;
 
 export default function OrdersPage() {
   const navigate = useNavigate();
+  const { dealer } = useDealer();
 
   const [orders, setOrders] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
   useEffect(() => {
-    fetch(`http://localhost:3001/orders?clientId=${CLIENT_ID}`)
+    fetch(`http://localhost:3001/orders?clientId=${dealer?.keepinClientId}`)
       .then((response) => {
         if (!response.ok) {
           throw new Error('Не вдалося отримати замовлення');
@@ -34,7 +35,7 @@ export default function OrdersPage() {
       .finally(() => {
         setLoading(false);
       });
-  }, []);
+  }, [dealer]);
 
   return (
     <Page back={false}>

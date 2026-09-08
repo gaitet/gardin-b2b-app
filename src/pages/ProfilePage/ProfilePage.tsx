@@ -2,19 +2,21 @@ import type { FC } from 'react';
 import { useEffect, useState } from 'react';
 import { Button } from '@telegram-apps/telegram-ui';
 import { useNavigate } from 'react-router-dom';
-
+import { useDealer } from '@/context/DealerContext';
 import { Page } from '@/components/Page';
 import { BottomNavigation } from '@/components/BottomNavigation/BottomNavigation';
 import { colors } from '@/theme/colors';
 
 export const ProfilePage: FC = () => {
   const navigate = useNavigate();
+  const { dealer } = useDealer();
 
   const [client, setClient] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('http://localhost:3001/client/35029312')
+  if (!dealer?.keepinClientId) return;
+  fetch(`http://localhost:3001/client/${dealer.keepinClientId}`)
       .then((response) => {
         if (!response.ok) {
           throw new Error('Не вдалося отримати профіль');
@@ -31,7 +33,7 @@ export const ProfilePage: FC = () => {
       .finally(() => {
         setLoading(false);
       });
-  }, []);
+  }, [dealer]);
 
   return (
     <Page back={false}>

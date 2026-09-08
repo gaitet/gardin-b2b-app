@@ -1,7 +1,7 @@
 import { colors } from '@/theme/colors';
 import { useState } from 'react';
 import { useCart } from '@/context/CartContext';
-import { currentDealer } from '@/data/currentDealer';
+import { useDealer } from '@/context/DealerContext';
 
 type ProductCardProps = {
   id: number;
@@ -22,8 +22,10 @@ export const ProductCard = ({
 }: ProductCardProps) => {
   const [quantity, setQuantity] = useState('1');
   const { addItem } = useCart();
-  const dealerPrice =
-  price * (1 - currentDealer.discount / 100);
+  const { dealer } = useDealer();
+
+  const discount = dealer?.discount ?? 0;
+  const dealerPrice = price * (1 - discount / 100);
 
   return (
     <div
@@ -105,7 +107,7 @@ export const ProductCard = ({
         marginLeft: 4,
       }}
     >
-      (−{currentDealer.discount}%)
+      (−{discount}%)
     </span>
   </div>
 

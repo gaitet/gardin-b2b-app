@@ -8,6 +8,7 @@ import { retrieveLaunchParams } from '@tma.js/sdk-react';
 import { Root } from '@/components/Root.tsx';
 import { EnvUnsupported } from '@/components/EnvUnsupported.tsx';
 import { CartProvider } from '@/context/CartContext';
+import { DealerProvider } from '@/context/DealerContext';
 import { init } from '@/init.ts';
 
 import './index.css';
@@ -31,10 +32,12 @@ try {
   }).then(() => {
     root.render(
       <StrictMode>
-        <CartProvider>
-          <Root />
-        </CartProvider>
-      </StrictMode>,
+  <DealerProvider>
+    <CartProvider>
+      <Root />
+    </CartProvider>
+  </DealerProvider>
+</StrictMode>,
     );
   });
 } catch (e) {

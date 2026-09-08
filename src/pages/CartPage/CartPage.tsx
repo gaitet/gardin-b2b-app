@@ -3,7 +3,7 @@ import { Page } from '@/components/Page';
 import { BottomNavigation } from '@/components/BottomNavigation/BottomNavigation';
 import { useCart } from '@/context/CartContext';
 import { colors } from '@/theme/colors';
-import { currentDealer } from '@/data/currentDealer';
+import { useDealer } from '@/context/DealerContext';
 
 export const CartPage: FC = () => {
     useEffect(() => {
@@ -16,15 +16,17 @@ export const CartPage: FC = () => {
     removeItem,
   } = useCart();
 
+  const { dealer } = useDealer();
   const getDealerPrice = (price: number) => {
-    return price * (1 - currentDealer.discount / 100);
-  };
+  const discount = dealer?.discount ?? 0;
+  return price * (1 - discount / 100);
+};
 
   const total = items.reduce((sum, item) => {
-    const dealerPrice = getDealerPrice(item.price);
+  const dealerPrice = getDealerPrice(item.price);
 
-    return sum + dealerPrice * item.quantity;
-  }, 0);
+  return sum + dealerPrice * item.quantity;
+}, 0);
 
   const submitOrder = async () => {
     const response = await fetch('http://localhost:3001/orders', {
@@ -33,8 +35,8 @@ export const CartPage: FC = () => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        dealerName: currentDealer.name,
-        keepinClientId: currentDealer.keepinClientId,
+        dealerName: dealer?.name,
+        keepinClientId: dealer?.keepinClientId,
         items,
       }),
     });
@@ -73,10 +75,10 @@ export const CartPage: FC = () => {
         ) : (
           <>
             {items.map((item) => {
-              const dealerPrice = getDealerPrice(item.price);
-              const itemTotal = dealerPrice * item.quantity;
+  const dealerPrice = getDealerPrice(item.price);
+  const itemTotal = dealerPrice * item.quantity;
 
-              return (
+  return (
                 <div
                   key={item.id}
                   style={{
