@@ -29,7 +29,7 @@ export const CartPage: FC = () => {
 }, 0);
 
   const submitOrder = async () => {
-    const response = await fetch('http://localhost:3001/orders', {
+    const response = await fetch('https://gardin-b2b.vercel.app/orders', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

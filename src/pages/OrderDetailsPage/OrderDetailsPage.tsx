@@ -15,7 +15,7 @@ export default function OrderDetailsPage() {
   useEffect(() => {
     if (!id) return;
 
-    fetch(`http://localhost:3001/agreement/${id}`)
+    fetch(`https://gardin-b2b.vercel.app/agreement/${id}`)
       .then((response) => {
         if (!response.ok) {
           throw new Error('Не вдалося отримати замовлення');

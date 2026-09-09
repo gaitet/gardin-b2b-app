@@ -29,7 +29,7 @@ export const DealerProvider = ({ children }: { children: ReactNode }) => {
           return;
         }
 
-        const response = await fetch('http://localhost:3001/client-by-telegram', {
+        const response = await fetch('https://gardin-b2b.vercel.app/client-by-telegram', {
           headers: {
             Authorization: `tma ${initDataRaw}`,
           },

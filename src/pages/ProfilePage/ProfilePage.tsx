@@ -16,7 +16,7 @@ export const ProfilePage: FC = () => {
 
   useEffect(() => {
   if (!dealer?.keepinClientId) return;
-  fetch(`http://localhost:3001/client/${dealer.keepinClientId}`)
+  fetch(`https://gardin-b2b.vercel.app/client/${dealer.keepinClientId}`)
       .then((response) => {
         if (!response.ok) {
           throw new Error('Не вдалося отримати профіль');
