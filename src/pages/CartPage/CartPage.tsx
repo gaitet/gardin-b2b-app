@@ -11,11 +11,12 @@ export const CartPage: FC = () => {
     window.scrollTo(0, 0);
   }, []);
   const {
-    items,
-    increaseItem,
-    decreaseItem,
-    removeItem,
-  } = useCart();
+  items,
+  increaseItem,
+  decreaseItem,
+  removeItem,
+  clearCart,
+} = useCart();
 
   const { dealer } = useDealer();
   const getDealerPrice = (price: number) => {
@@ -48,6 +49,7 @@ const response = await fetch('https://gardin-b2b.vercel.app/orders', {
     console.log(result);
 
     alert('Запит відправлено');
+    clearCart();
   };
 
   return (
@@ -92,146 +94,169 @@ const response = await fetch('https://gardin-b2b.vercel.app/orders', {
                   }}
                 >
                   <div
-                    style={{
-                      display: 'grid',
-                      gridTemplateColumns: 'minmax(180px, 1fr) auto auto auto auto',
-                      alignItems: 'center',
-                      gap: 20,
-                    }}
-                  >
-                    <div
-                      style={{
-                        minWidth: 0,
-                      }}
-                    >
-                      <div
-                        style={{
-                          fontWeight: 600,
-                          lineHeight: 1.4,
-                        }}
-                      >
-                        {item.name}
-                      </div>
-
-                      <div
-                        style={{
-                          marginTop: 6,
-                          fontSize: 13,
-                          color: colors.textSecondary,
-                        }}
-                      >
-                        Арт. {item.article}
-                      </div>
-                    </div>
-
-                    <div>
-                      <div
-                        style={{
-                          fontSize: 14,
-                          color: colors.textSecondary,
-                        }}
-                      >
-                        Ціна
-                      </div>
-
-                      <div
-                        style={{
-                          fontWeight: 600,
-                          fontSize: 16,
-                          color: colors.textSecondary,
-                          textDecoration: 'line-through',
-                        }}
-                      >
-                        {item.price.toFixed(2)} ₴
-                      </div>
-
-                      <div
-                        style={{
-                          fontWeight: 600,
-                          fontSize: 15,
-                          marginTop: 2,
-                        }}
-                      >
-                        {dealerPrice.toFixed(2)} ₴
-                      </div>
-                    </div>
-
-                    <div>
+  style={{
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 16,
+    minWidth: 0,
+  }}
+>
   <div
     style={{
-      fontSize: 14,
-      color: colors.textSecondary,
-      marginBottom: 6,
+      minWidth: 0,
     }}
   >
-    К-сть
+    <div
+      style={{
+        fontWeight: 600,
+        lineHeight: 1.4,
+      }}
+    >
+      {item.name}
+    </div>
+
+    <div
+      style={{
+        marginTop: 6,
+        fontSize: 13,
+        color: colors.textSecondary,
+      }}
+    >
+      Арт. {item.article}
+    </div>
   </div>
 
   <div
     style={{
       display: 'flex',
-      alignItems: 'center',
-      gap: 8,
+      alignItems: 'flex-end',
+      gap: 32,
+      flexWrap: 'wrap',
     }}
   >
-    <button
-      onClick={() => decreaseItem(item.id)}
-    >
-      −
-    </button>
+    <div>
+      <div
+        style={{
+          fontSize: 14,
+          color: colors.textSecondary,
+        }}
+      >
+        Ціна
+      </div>
 
-    <strong>
-      {item.quantity}
-    </strong>
+      <div
+        style={{
+          fontWeight: 600,
+          fontSize: 14,
+          color: colors.textSecondary,
+          textDecoration: 'line-through',
+        }}
+      >
+        {item.price.toFixed(2)} ₴
+      </div>
 
-    <button
-      onClick={() => increaseItem(item.id)}
-    >
-      +
-    </button>
+      <div
+        style={{
+          fontWeight: 600,
+          fontSize: 15,
+          marginTop: 2,
+        }}
+      >
+        {dealerPrice.toFixed(2)} ₴
+      </div>
+    </div>
 
-    <span
+    <div>
+      <div
+        style={{
+          fontSize: 14,
+          color: colors.textSecondary,
+          marginBottom: 6,
+        }}
+      >
+        К-сть
+      </div>
+
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: 6,
+        }}
+      >
+        <button
+          onClick={() => decreaseItem(item.id)}
+          style={{
+            width: 30,
+            height: 30,
+            padding: 0,
+          }}
+        >
+          −
+        </button>
+
+        <strong>{item.quantity}</strong>
+
+        <button
+          onClick={() => increaseItem(item.id)}
+          style={{
+            width: 30,
+            height: 30,
+            padding: 0,
+          }}
+        >
+          +
+        </button>
+
+        <span
+          style={{
+            fontSize: 12,
+            color: colors.textSecondary,
+          }}
+        >
+          {item.unit}
+        </span>
+      </div>
+    </div>
+
+    <div
       style={{
-        fontSize: 12,
-        color: colors.textSecondary,
+        textAlign: 'right',
       }}
     >
-      {item.unit}
-    </span>
+      <div
+        style={{
+          fontSize: 14,
+          color: colors.textSecondary,
+        }}
+      >
+        Разом
+      </div>
+
+      <strong
+        style={{
+          fontSize: 16,
+        }}
+      >
+        {itemTotal.toFixed(2)} ₴
+      </strong>
+    </div>
   </div>
+
+  <button
+    onClick={() => removeItem(item.id)}
+    style={{
+      alignSelf: 'flex-end',
+      background: 'transparent',
+      border: 'none',
+      cursor: 'pointer',
+      fontSize: 18,
+      padding: 4,
+    }}
+  >
+    🗑
+  </button>
 </div>
-
-                    <div>
-                      <div
-                        style={{
-                          fontSize: 14,
-                          color: colors.textSecondary,
-                        }}
-                      >
-                        Разом
-                      </div>
-
-                      <strong
-                        style={{
-                          fontSize: 17,
-                        }}
-                      >
-                        {itemTotal.toFixed(2)} ₴
-                      </strong>
-                    </div>
-
-                    <button
-                      onClick={() => removeItem(item.id)}
-                      style={{
-                        background: 'transparent',
-                        border: 'none',
-                        cursor: 'pointer',
-                        fontSize: 18,
-                      }}
-                    >
-                      🗑
-                    </button>
-                  </div>
                 </div>
               );
             })}
