@@ -4,6 +4,7 @@ import { BottomNavigation } from '@/components/BottomNavigation/BottomNavigation
 import { useCart } from '@/context/CartContext';
 import { colors } from '@/theme/colors';
 import { useDealer } from '@/context/DealerContext';
+import { retrieveRawInitData } from '@tma.js/sdk';
 
 export const CartPage: FC = () => {
     useEffect(() => {
@@ -29,17 +30,18 @@ export const CartPage: FC = () => {
 }, 0);
 
   const submitOrder = async () => {
-    const response = await fetch('https://gardin-b2b.vercel.app/orders', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        dealerName: dealer?.name,
-        keepinClientId: dealer?.keepinClientId,
-        items,
-      }),
-    });
+    const initDataRaw = retrieveRawInitData();
+
+const response = await fetch('https://gardin-b2b.vercel.app/orders', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    Authorization: `tma ${initDataRaw}`,
+  },
+  body: JSON.stringify({
+    items,
+  }),
+});
 
     const result = await response.json();
 
