@@ -130,7 +130,7 @@ const response = await fetch('https://gardin-b2b.vercel.app/orders', {
     style={{
       display: 'flex',
       alignItems: 'flex-end',
-      gap: 32,
+      gap: 20,
       flexWrap: 'wrap',
     }}
   >
@@ -208,14 +208,15 @@ const response = await fetch('https://gardin-b2b.vercel.app/orders', {
           +
         </button>
 
-        <span
-          style={{
-            fontSize: 12,
-            color: colors.textSecondary,
-          }}
-        >
-          {item.unit}
-        </span>
+            <span
+      style={{
+        fontSize: 12,
+        color: colors.textSecondary,
+        marginLeft: 4,
+      }}
+    >
+      {item.unit}
+    </span>
       </div>
     </div>
 
