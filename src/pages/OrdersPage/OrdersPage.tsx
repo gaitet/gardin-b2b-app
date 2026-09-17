@@ -5,37 +5,47 @@ import { useNavigate } from 'react-router-dom';
 import { Page } from '@/components/Page';
 import { BottomNavigation } from '@/components/BottomNavigation/BottomNavigation';
 import { colors } from '@/theme/colors';
-import { useDealer } from '@/context/DealerContext';
-
+import { retrieveRawInitData } from '@tma.js/sdk';
 
 export default function OrdersPage() {
   const navigate = useNavigate();
-  const { dealer } = useDealer();
-
+   
   const [orders, setOrders] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
   useEffect(() => {
-    fetch(`https://gardin-b2b.vercel.app/orders?clientId=${dealer?.keepinClientId}`)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Не вдалося отримати замовлення');
-        }
+  const initDataRaw = retrieveRawInitData();
 
-        return response.json();
-      })
-      .then((data) => {
-        setOrders(data.items || []);
-      })
-      .catch((error) => {
-        console.error(error);
-        setError('Не вдалося завантажити замовлення');
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, [dealer]);
+  if (!initDataRaw) {
+    setError('Не знайдено Telegram авторизацію');
+    setLoading(false);
+    return;
+  }
+
+  fetch('https://gardin-b2b.vercel.app/orders', {
+    headers: {
+      Authorization: `tma ${initDataRaw}`,
+    },
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error('Не вдалося отримати замовлення');
+      }
+
+      return response.json();
+    })
+    .then((data) => {
+      setOrders(data.items || []);
+    })
+    .catch((error) => {
+      console.error(error);
+      setError('Не вдалося завантажити замовлення');
+    })
+    .finally(() => {
+      setLoading(false);
+    });
+}, []);
 
   return (
     <Page back={false}>
